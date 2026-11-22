@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 import { SleepData } from '../data/sleep-data';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
@@ -47,4 +48,16 @@ export class SleepService {
 		SleepService.AllSleepData.push(sleepData);
 		SleepService.AllSleepinessData.push(sleepData);
 	}
+
+  public async persistData() {
+    await Preferences.set({
+      key: 'overnight_records',
+      value: JSON.stringify(SleepService.AllOvernightData)
+    });
+    await Preferences.set({
+      key: 'sleepiness_records',
+      value: JSON.stringify(SleepService.AllSleepinessData)
+    });
+  }
+
 }

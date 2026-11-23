@@ -1,11 +1,19 @@
-<ion-content class="ion-padding">
-    <div class="center-align">Currently Logging Grogginess</div>
-    <ion-range (ionChange)="onSliderChange($event)" [ticks]="true" [snaps]="true" [min]="1" [max]="7">
+<ion-content class="ion-padding-horizontal">
+    <div class="center-align">
+        <h2>How sleepy are you right now?</h2>
+    </div>
+    <h1>Level {{ rating }}</h1>
+    <p>{{ getScaleDescription(rating)}}</p>
+    <ion-range
+            [(ngModel)]="rating"
+            (ionChange)="onSliderChange($event)"
+            [ticks]="true"
+            [snaps]="true"
+            [min]="1"
+            [max]="7">
     </ion-range>
+    <ion-button expand="block" class="log-btn" (click)="save()">Add</ion-button>
 </ion-content>
 
- <ion-footer>
-    <ion-toolbar>
-        <ion-button class="center-align" (click)="LogGrog()">Log Grogginess Data</ion-button>
-    </ion-toolbar>  
-</ion-footer>
+
+

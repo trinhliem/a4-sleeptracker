@@ -8,7 +8,7 @@ import {
   IonLabel
   } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { home, bed, happy } from 'ionicons/icons';
+import { home, bed, happy, analytics, moon } from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ import { home, bed, happy } from 'ionicons/icons';
 })
 export class AppComponent {
   constructor() {
-    addIcons({ home, bed, happy });
+    addIcons({ home, bed, happy, analytics, moon });
   }
 }
 

@@ -33,11 +33,6 @@ export class LogSleepPage {
         const record = new OvernightSleepData(new Date(this.bedtime), new Date(this.wakeup));
         await this.sleepService.logOvernightData(record);
 
-        this.navCtrl.back();
-    }
-
-    LogSleep()
-    {
-
+        this.navCtrl.navigateRoot('/home');
     }
 }

@@ -33,19 +33,14 @@ export class LogSleepinessPage {
     async save() {
         const record = new StanfordSleepinessData(this.rating, new Date());
         await this.sleepService.logSleepinessData(record);
-
-        // Automatically navigate back to Home dashboard!
-        this.navCtrl.back();
+        console.log('Saved sleepiness record: ', record.summaryString());
+        this.navCtrl.navigateRoot('/home');
     }
 
     onSliderChange(event: RangeCustomEvent)
     {
         console.log('ionChange emitted value:', event.detail.value)
-        //this.rating = event.detail.value;
+        //this.rating = event.detail.value as number;
     }
 
-    LogGrog()
-    {
-        //Logging data here
-    }
 }

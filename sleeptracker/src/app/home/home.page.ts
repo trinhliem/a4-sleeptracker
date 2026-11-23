@@ -66,6 +66,19 @@ export class HomePage implements OnInit{
     await this.sleepService.initData();
 	}
 
+  get greeting(): string {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      return 'Good morning';
+    } else if (hour >=12 && hour < 17) {
+      return 'Good afternoon';
+    } else if (hour >= 17 && hour < 21) {
+      return 'Good evening';
+    } else {
+      return 'Good night';
+    }
+  }
+
 	/* Ionic doesn't allow bindings to static variables, so this getter can be used instead. */
 	get allSleepData() {
 		return SleepService.AllSleepData;
@@ -75,6 +88,6 @@ export class HomePage implements OnInit{
 		this.selectedDate = event.detail.value as string;
 		this.selectedReadableDate = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 	}
-	
+
 
 }

@@ -3,7 +3,7 @@
         <h1>How sleepy are you right now?</h1>
     </div>
     <h2>Level {{ rating }}</h2>
-    <p>{{ getScaleDescription(rating)}}</p>
+    <p  class="scale-description">{{ getScaleDescription(rating)}}</p>
     <ion-range
             [(ngModel)]="rating"
             (ionChange)="onSliderChange($event)"

@@ -1,35 +1,37 @@
 <ion-content class="ion-padding">
-    <h1 class="center-align">How much sleep did you get?</h1>
-    
-    <!-- Bedtime Input-->
-    <ion-item>
-        <h2 class="center-align">Time you went to bed</h2>
-        <ion-datetime-button datetime="bedtime"></ion-datetime-button>
-    </ion-item>
-    
-    <ion-modal [keepContentsMounted]="true">
+  <!-- bedtime step -->
+  @if (currentStep === 1) {
+    <div class="step-card">
+      <h2 class="center-align">When did you go to bed?</h2>
+      <ion-item lines="none">
+      <ion-datetime-button datetime="bedtime" ></ion-datetime-button>
+      </ion-item>
+      <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime id="bedtime"></ion-datetime>
+          <ion-datetime id="bedtime" [(ngModel)]="bedtime"></ion-datetime>
         </ng-template>
-    </ion-modal>
-
-    <!-- Wake-up Time Input -->
-    <ion-item>
-        <h2 class="center-align">Time you woke up</h2>
+      </ion-modal>
+      <div class="button-row center-align">
+        <ion-button (click)="nextStep()">Next &rarr;</ion-button>
+      </div>
+    </div>
+  }
+  @else if (currentStep === 2) { <!-- wake time step -->
+    <div class="step-card slide-in-right">
+    <h2 class="center-align">When did you get out of bed?</h2>
+      <ion-item lines="none">
         <ion-datetime-button datetime="waketime"></ion-datetime-button>
-    </ion-item>
-
-    <ion-modal [keepContentsMounted]="true">
+      </ion-item>
+      <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime id="waketime"></ion-datetime>
+          <ion-datetime id="waketime" [(ngModel)]="wakeup"></ion-datetime>
         </ng-template>
-    </ion-modal>
+      </ion-modal>
+      <div class="button-row center-align">
+        <ion-button fill="outline" (click)="prevStep()">&larr; Back</ion-button>
+        <ion-button color="primary" (click)="save()">Log Sleep</ion-button>
+      </div>
+    </div>
+  }
 
-    
 </ion-content>
-
-<ion-footer>
-    <ion-toolbar>
-        <ion-button class="center-align" (click)="save()">Log Sleep Data</ion-button>
-    </ion-toolbar>
-</ion-footer>

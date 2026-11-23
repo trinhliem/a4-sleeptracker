@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonBackButton, IonButton,
-    IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal,
-    NavController, IonInput, IonFooter
+  IonToolbar,
+  IonContent,
+  IonBackButton, IonButton,
+  IonItem, IonLabel,
+  IonDatetime,
+  IonDatetimeButton,
+  IonModal,
+  NavController,
+  IonInput,
+  IonFooter,
+  ViewWillEnter
 } from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
@@ -14,25 +21,45 @@ import { OvernightSleepData } from '../data/overnight-sleep-data';
     templateUrl: 'log-sleep.page.html',
     imports: [
         FormsModule,
-        IonHeader, IonToolbar, IonTitle, IonContent,
-        IonButtons, IonBackButton, IonButton,
-        IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal,
-        IonInput, IonFooter
+        IonToolbar,
+        IonContent,
+        IonBackButton, IonButton,
+        IonItem, IonDatetime, IonDatetimeButton, IonModal,
+        IonFooter
     ],
 })
-export class LogSleepPage {
-    bedtime: string = new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString();
-    wakeup: string = new Date().toISOString();
+export class LogSleepPage implements ViewWillEnter { // the interface triggers whenever the page is navigated to
+  currentStep: number = 1;
+  direction: 'forward' | 'backward' = 'forward';
 
-    constructor(
-        private sleepService: SleepService,
-        private navCtrl: NavController
-    ) {}
+  bedtime: string = new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString();
+  wakeup: string = new Date().toISOString();
 
-    async save() {
-        const record = new OvernightSleepData(new Date(this.bedtime), new Date(this.wakeup));
-        await this.sleepService.logOvernightData(record);
+  constructor(
+      private sleepService: SleepService,
+      private navCtrl: NavController
+  ) {}
 
-        this.navCtrl.navigateRoot('/home');
-    }
+  ionViewWillEnter() {
+    this.currentStep = 1;
+    this.direction = 'forward';
+
+  }
+
+  nextStep() {
+    this.direction = 'forward';
+    this.currentStep = 2;
+  }
+
+  prevStep() {
+    this.direction = 'backward';
+    this.currentStep = 1;
+  }
+
+  async save() {
+      const record = new OvernightSleepData(new Date(this.bedtime), new Date(this.wakeup));
+      await this.sleepService.logOvernightData(record);
+
+      this.navCtrl.navigateRoot('/home');
+  }
 }

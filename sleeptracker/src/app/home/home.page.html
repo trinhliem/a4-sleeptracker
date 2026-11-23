@@ -1,10 +1,14 @@
 <!--- Sleep Data Visuals + Content -->
-<ion-content>
-    <h1 class="center-align">Logged Data</h1>
+<ion-content class="ion-padding">
+  <div>
+    <h1  class="greeting-text">{{ greeting }}</h1>
+  </div>
+
+  <div class="ion-align-items-center ion-margin-top">
     <ion-item>
         <ion-datetime presentation="date" [value]="currentDate" (ionChange)="onDateChange($event)"></ion-datetime>
     </ion-item>
-    
+
     <ion-item>
         <ion-label>
             <h2>Sleep Data</h2>
@@ -18,5 +22,5 @@
             <p>Sleepiness data for {{ selectedReadableDate }} here</p>
         </ion-label>
     </ion-item>
-
+  </div>
 </ion-content>

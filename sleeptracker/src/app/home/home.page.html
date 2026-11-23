@@ -1,20 +1,67 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
+  <!--- Data Page -->
+  <ion-tab tab="data">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div id="home-page" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>See Data</ion-title>
+        </ion-toolbar>
+      </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+      <!--- Page Content-->
+      <ion-content>
+        <div style="display: flex; align-items: center; justify-content: center;">Data content</div>
+      </ion-content>
+    </div>
+
+  </ion-tab>
+
+  <!--- Loging Page-->
+  <ion-tab tab="log">
+    <div id="home-page" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Log Data</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <!--- Page Content-->
+      <ion-content>
+        <ion-button (click)="LogSleep()">Log Sleep</ion-button>
+        <ion-button (click)="LogGrog()">Log Grogginess</ion-button>
+
+        @if(sleepLogging)
+        {
+          <!-- Log Sleep Mode -->
+          
+          <div>Currently Logging Sleep</div>
+          <ion-input label="Enter data", inputmode="numeric", maxlength="2"></ion-input>
+        } @else {
+
+          <!-- Log Grogginess Mode -->
+          
+          <div>Currently Logging Grogginess</div>
+          <ion-input label="Enter data", inputmode="numeric", maxlength="2"></ion-input>
+        }
+
+      </ion-content>
+    </div>
+
+  </ion-tab>
+
+<!--- Navigation Tabs-->
+  <ion-tab-bar slot="bottom">
+    
+    <!--- Data page -->
+    <ion-tab-button tab="data">
+      <ion-label class="color-white">Data</ion-label>
+    </ion-tab-button>
+
+    <!--- Log page -->
+    <ion-tab-button tab="log">
+      <ion-label class="color-white">Log</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

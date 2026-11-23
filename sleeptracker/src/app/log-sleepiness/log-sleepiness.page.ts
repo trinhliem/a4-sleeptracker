@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import {
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonButtons, IonBackButton, IonButton, IonRange, IonLabel,
-    NavController, IonFooter
+    NavController, IonFooter, RangeCustomEvent
 } from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
@@ -19,6 +19,7 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 })
 export class LogSleepinessPage {
     rating: number = 3;
+
 
     constructor(
         private sleepService: SleepService,
@@ -37,8 +38,14 @@ export class LogSleepinessPage {
         this.navCtrl.back();
     }
 
+    onSliderChange(event: RangeCustomEvent)
+    {
+        console.log('ionChange emitted value:', event.detail.value)
+        //this.rating = event.detail.value;
+    }
+
     LogGrog()
     {
-
+        //Logging data here
     }
 }

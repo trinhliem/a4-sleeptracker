@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
     <div class="center-align">Currently Logging Grogginess</div>
-    <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="7">
+    <ion-range (ionChange)="onSliderChange($event)" [ticks]="true" [snaps]="true" [min]="1" [max]="7">
     </ion-range>
 </ion-content>
 

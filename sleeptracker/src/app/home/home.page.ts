@@ -61,4 +61,13 @@ export class HomePage implements OnInit{
 		return SleepService.AllSleepData;
 	}
 
+	showingSleepData: boolean = true;
+
+	showSleepData() {
+		this.showingSleepData = true;
+	}
+
+	showSleepinessData() {
+		this.showingSleepData = false;
+	}
 }

@@ -1,9 +1,34 @@
 <ion-content class="ion-padding">
-    <div class="center-align">How much sleep did you get?</div>
-    <ion-input label="Enter data" inputmode="numeric" maxlength="2"></ion-input>
+    <h1 class="center-align">How much sleep did you get?</h1>
+    
+    <!-- Bedtime Input-->
+    <ion-item>
+        <h2 class="center-align">Time you went to bed</h2>
+        <ion-datetime-button datetime="bedtime"></ion-datetime-button>
+    </ion-item>
+    
+    <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+            <ion-datetime id="bedtime"></ion-datetime>
+        </ng-template>
+    </ion-modal>
+
+    <!-- Wake-up Time Input -->
+    <ion-item>
+        <h2 class="center-align">Time you woke up</h2>
+        <ion-datetime-button datetime="waketime"></ion-datetime-button>
+    </ion-item>
+
+    <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+            <ion-datetime id="waketime"></ion-datetime>
+        </ng-template>
+    </ion-modal>
+
+    
 </ion-content>
 
- <ion-footer>
+<ion-footer>
     <ion-toolbar>
         <ion-button class="center-align" (click)="save()">Log Sleep Data</ion-button>
     </ion-toolbar>

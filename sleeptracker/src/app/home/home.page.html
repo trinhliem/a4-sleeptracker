@@ -1,4 +1,20 @@
 <!--- Sleep Data Visuals + Content -->
 <ion-content>
  <h1>Visuals pending...</h1>
+    @if (showingSleepData) {
+        <h2>Sleep Data</h2>
+        <p>Sleep data here</p>
+    } @else {
+        <h2>Sleepiness Data</h2>
+        <p>Sleepiness data here</p>
+    }
+
+
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-button  (click)="showSleepData()">Show Sleep Data</ion-button>
+        <ion-button  (click)="showSleepinessData()">Show Sleepiness Data</ion-button>
+    </ion-toolbar>
+</ion-footer>

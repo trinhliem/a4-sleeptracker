@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonHeader,
 	IonToolbar,
@@ -15,7 +15,11 @@ import { IonHeader,
 	IonButton,
   IonButtons,
   IonRange,
-  IonFooter,} from '@ionic/angular/standalone';
+  IonFooter,
+  IonDatetime,
+	IonItem,
+	DatetimeCustomEvent
+} from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { addIcons } from 'ionicons';
 import { bed, happy } from 'ionicons/icons';
@@ -44,12 +48,18 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
   IonFooter,
   IonToolbar,
   IonButtons,
-  RouterLink],
+  RouterLink,
+	IonDatetime,
+IonItem],
 })
 export class HomePage implements OnInit{
   constructor(public sleepService:SleepService) {
     addIcons({bed, happy});
 	}
+
+	currentDate:string = new Date().toISOString();
+	selectedDate:string = new Date().toISOString();
+	selectedReadableDate:string = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 
 	async ngOnInit() {
 		console.log(this.allSleepData);
@@ -61,13 +71,10 @@ export class HomePage implements OnInit{
 		return SleepService.AllSleepData;
 	}
 
-	showingSleepData: boolean = true;
-
-	showSleepData() {
-		this.showingSleepData = true;
+	onDateChange(event: DatetimeCustomEvent) {
+		this.selectedDate = event.detail.value as string;
+		this.selectedReadableDate = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 	}
+	
 
-	showSleepinessData() {
-		this.showingSleepData = false;
-	}
 }

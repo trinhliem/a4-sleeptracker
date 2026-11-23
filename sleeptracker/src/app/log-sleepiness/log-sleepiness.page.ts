@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import {
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonButtons, IonBackButton, IonButton, IonRange, IonLabel,
-    NavController
+    NavController, IonFooter
 } from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
@@ -14,7 +14,7 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
     imports: [
         FormsModule,
         IonHeader, IonToolbar, IonTitle, IonContent,
-        IonButtons, IonBackButton, IonButton, IonRange, IonLabel
+        IonButtons, IonBackButton, IonButton, IonRange, IonLabel, IonFooter
     ],
 })
 export class LogSleepinessPage {
@@ -35,5 +35,10 @@ export class LogSleepinessPage {
 
         // Automatically navigate back to Home dashboard!
         this.navCtrl.back();
+    }
+
+    LogGrog()
+    {
+
     }
 }

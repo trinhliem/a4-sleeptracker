@@ -4,7 +4,7 @@ import {
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonButtons, IonBackButton, IonButton,
     IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal,
-    NavController, IonInput
+    NavController, IonInput, IonFooter
 } from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
@@ -17,7 +17,7 @@ import { OvernightSleepData } from '../data/overnight-sleep-data';
         IonHeader, IonToolbar, IonTitle, IonContent,
         IonButtons, IonBackButton, IonButton,
         IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal,
-        IonInput
+        IonInput, IonFooter
     ],
 })
 export class LogSleepPage {
@@ -34,5 +34,10 @@ export class LogSleepPage {
         await this.sleepService.logOvernightData(record);
 
         this.navCtrl.back();
+    }
+
+    LogSleep()
+    {
+
     }
 }

@@ -34,15 +34,14 @@
         @if(sleepLogging)
         {
           <!-- Log Sleep Mode -->
-          
           <div>Currently Logging Sleep</div>
           <ion-input label="Enter data", inputmode="numeric", maxlength="2"></ion-input>
         } @else {
 
           <!-- Log Grogginess Mode -->
-          
           <div>Currently Logging Grogginess</div>
-          <ion-input label="Enter data", inputmode="numeric", maxlength="2"></ion-input>
+          <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="7">
+          </ion-range>
         }
 
       </ion-content>

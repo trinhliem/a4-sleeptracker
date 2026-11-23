@@ -10,7 +10,8 @@ import { IonHeader,
 	IonIcon, 
 	IonTab,
  	IonInput,
-	IonButton} from '@ionic/angular/standalone';
+	IonButton,
+	IonRange} from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { SleepData } from '../data/sleep-data';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
@@ -31,7 +32,8 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 	IonIcon, 
 	IonTab, 
 	IonInput,
-	IonButton],
+	IonButton,
+	IonRange],
 })
 export class HomePage {
   constructor(public sleepService:SleepService) {

@@ -1,3 +1,26 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-tabs>
+    <!-- The persistent bottom tab bar -->
+    <ion-tab-bar slot="bottom" color="primary">
+
+      <!-- Tab 1: Home / Data -->
+      <ion-tab-button tab="home" href="/home">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Data</ion-label>
+      </ion-tab-button>
+
+      <!-- Tab 2: Log Sleepiness -->
+      <ion-tab-button tab="log-sleepiness" href="/log-sleepiness">
+        <ion-icon name="happy"></ion-icon>
+        <ion-label>Grogginess</ion-label>
+      </ion-tab-button>
+
+      <!-- Tab 3: Log Sleep -->
+      <ion-tab-button tab="log-sleep" href="/log-sleep">
+        <ion-icon name="bed"></ion-icon>
+        <ion-label>Sleep</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-app>

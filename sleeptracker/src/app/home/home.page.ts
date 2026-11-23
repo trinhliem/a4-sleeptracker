@@ -1,18 +1,25 @@
-import { Component } from '@angular/core';
-import { IonHeader, 
-	IonToolbar, 
-	IonTitle, 
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { IonHeader,
+	IonToolbar,
+	IonTitle,
 	IonContent,
-	IonTabs, 
-	IonTabBar, 
-	IonTabButton, 
-	IonLabel, 
-	IonIcon, 
+	IonTabs,
+	IonTabBar,
+	IonTabButton,
+	IonLabel,
+	IonIcon,
 	IonTab,
  	IonInput,
 	IonButton,
-	IonRange} from '@ionic/angular/standalone';
+  IonButtons,
+  IonRange,
+  IonFooter,} from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
+import { addIcons } from 'ionicons';
+import { bed, happy } from 'ionicons/icons';
+
 import { SleepData } from '../data/sleep-data';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
@@ -21,26 +28,28 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, 
-	IonToolbar, 
-	IonTitle, 
+  imports: [IonHeader,
+	IonToolbar,
+	IonTitle,
 	IonContent,
 	IonTabs,
 	IonTabBar,
 	IonTabButton,
 	IonLabel,
-	IonIcon, 
-	IonTab, 
+	IonIcon,
+	IonTab,
 	IonInput,
 	IonButton,
-	IonRange],
+  IonRange,
+  IonFooter,
+  IonToolbar,
+  IonButtons,
+  RouterLink],
 })
-export class HomePage {
+export class HomePage implements OnInit{
   constructor(public sleepService:SleepService) {
-		
+    addIcons({bed, happy});
 	}
-	sleepLogging = true;
-
 
 	async ngOnInit() {
 		console.log(this.allSleepData);
@@ -52,12 +61,4 @@ export class HomePage {
 		return SleepService.AllSleepData;
 	}
 
-	LogSleep() {
-		this.sleepLogging = true;
-	}
-
-	LogGrog()
-	{
-		this.sleepLogging = false;
-	}
 }

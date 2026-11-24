@@ -61,12 +61,15 @@ IonItem],
 
 export class HomePage implements ViewDidEnter, OnDestroy {
   @ViewChild('sleepChartContainer') chartElement!: ElementRef<HTMLDivElement>
+  @ViewChild('sleepinessChartContainer') sleepinessChartElement!: ElementRef<HTMLDivElement>
+
 
   currentDate:string = new Date().toISOString();
   selectedDate:string = new Date().toISOString();
   selectedReadableDate:string = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 
   private chart?: ApexCharts;
+  private sleepinessChart?: ApexCharts;
 
   constructor(public sleepService:SleepService) {
     addIcons({bed, happy});
@@ -75,11 +78,14 @@ export class HomePage implements ViewDidEnter, OnDestroy {
     await this.sleepService.initData();
     this.highlightedDates = this.colorCodeDates();
     this.renderOrUpdateChart();
+	this.renderOrUpdateSleepinessChart();
   }
 
   ngOnDestroy() {
     this.chart?.destroy();
+	this.sleepinessChart?.destroy();
   }
+
 
   get selectedSleepRecord(): OvernightSleepData | undefined {
     const targetYMD = this.selectedDate.slice(0, 10);
@@ -90,6 +96,16 @@ export class HomePage implements ViewDidEnter, OnDestroy {
     });
   }
 
+  get selectedSleepinessRecord(): StanfordSleepinessData | undefined {
+	return SleepService.AllSleepinessData.find((record) => {
+		const logTime = record.loggedAt;
+		const loggedValue = record.valueLogged;
+	});
+  }
+
+
+
+  //Greets the user based off the time of day
   get greeting(): string {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
@@ -130,6 +146,7 @@ export class HomePage implements ViewDidEnter, OnDestroy {
     });
   }
 
+
   private toChartInterval(record: OvernightSleepData): [number, number] {
     const startDec = record.startTime.getHours() + record.startTime.getMinutes() / 60;
     let endDec = record.endTime.getHours() + record.endTime.getMinutes() / 60;
@@ -139,10 +156,31 @@ export class HomePage implements ViewDidEnter, OnDestroy {
     return [baseMs + startDec * 3600000, baseMs + endDec * 3600000];
   }
 
+private getSingleDaySleepinessData(): { x: number; y: number }[] {
+  const targetYMD = formatDate(new Date(this.selectedDate), 'yyyy-MM-dd', 'en-US');
+  const baseDayMs = new Date('2026-01-01T00:00:00').getTime();
+
+  return SleepService.AllSleepinessData
+    .filter((record) => formatDate(record.loggedAt, 'yyyy-MM-dd', 'en-US') === targetYMD)
+    .sort((a, b) => a.loggedAt.getTime() - b.loggedAt.getTime())
+    .map((record) => {
+      const timeOfDayMs =
+        record.loggedAt.getHours() * 3600000 +
+        record.loggedAt.getMinutes() * 60000 +
+        record.loggedAt.getSeconds() * 1000;
+
+      return {
+        x: baseDayMs + timeOfDayMs,
+        y: record.valueLogged
+      };
+    });
+}
+
   onDateChange(event: DatetimeCustomEvent) {
 		this.selectedDate = event.detail.value as string;
 		this.selectedReadableDate = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
     this.renderOrUpdateChart();
+	this.renderOrUpdateSleepinessChart();
 	}
 
   private renderOrUpdateChart() {
@@ -193,8 +231,72 @@ export class HomePage implements ViewDidEnter, OnDestroy {
 
     this.chart = new ApexCharts(this.chartElement.nativeElement, options);
     this.chart.render();
-
   }
+
+  private renderOrUpdateSleepinessChart() {
+  const seriesData = this.getSingleDaySleepinessData();
+
+  if (this.sleepinessChart) {
+    this.sleepinessChart.updateSeries([{ name: 'Sleepiness', data: seriesData }]);
+    return;
+  }
+
+  if (!this.sleepinessChartElement) return;
+
+  const dayStartMs = new Date('2026-01-01T00:00:00').getTime();
+  const dayEndMs = new Date('2026-01-01T23:59:59').getTime();
+
+  const options: ApexCharts.ApexOptions = {
+    chart: {
+      type: 'line',
+      height: 220,
+      toolbar: { show: false },
+      animations: { enabled: true }
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 3
+    },
+    markers: {
+      size: 5
+    },
+    xaxis: {
+      type: 'datetime',
+      min: dayStartMs,
+      max: dayEndMs,
+      labels: {
+        datetimeUTC: false,
+        format: 'HH:mm'
+      },
+      axisBorder: { show: false },
+      axisTicks: { show: false }
+    },
+    yaxis: {
+      min: 1,
+      max: 7,
+      tickAmount: 6,
+      decimalsInFloat: 0
+    },
+    tooltip: {
+      x: {
+        format: 'h:mm a'
+      }
+    },
+    grid: {
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      strokeDashArray: 3
+    },
+    series: [
+      {
+        name: 'Sleepiness',
+        data: seriesData
+      }
+    ]
+  };
+
+  this.sleepinessChart = new ApexCharts(this.sleepinessChartElement.nativeElement, options);
+  this.sleepinessChart.render();
+}
 
 
 	colorCodeDates() {

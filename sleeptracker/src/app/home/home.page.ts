@@ -131,13 +131,18 @@ export class HomePage implements ViewDidEnter, OnDestroy {
   }
 
   private toChartInterval(record: OvernightSleepData): [number, number] {
-    const startDec = record.startTime.getHours() + record.startTime.getMinutes() / 60;
+    let startDec = record.startTime.getHours() + record.startTime.getMinutes() / 60;
     let endDec = record.endTime.getHours() + record.endTime.getMinutes() / 60;
-    if (endDec <= startDec) endDec += 24; // Crossed midnight
 
-    const baseMs = new Date('2026-01-01 00:00:00').getTime();
+    if (startDec < 18) startDec += 24;
+    if (endDec < 18) endDec += 24;
+
+    if (endDec <= startDec) endDec += 24;
+
+    const baseMs = new Date(2026, 0, 1).getTime();
     return [baseMs + startDec * 3600000, baseMs + endDec * 3600000];
   }
+
 
   onDateChange(event: DatetimeCustomEvent) {
 		this.selectedDate = event.detail.value as string;
@@ -177,7 +182,10 @@ export class HomePage implements ViewDidEnter, OnDestroy {
       },
       yaxis: {
         labels: {
-          formatter: (val: number) => new Date(val).toLocaleTimeString([], { hour: 'numeric' })
+          formatter: (val: number) => {
+            if (!val || isNaN(val)) return '';
+            return new Date(val).toLocaleTimeString([], {hour: 'numeric'});
+          }
         }
       },
       grid: {

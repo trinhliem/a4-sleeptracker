@@ -30,6 +30,6 @@ export class OvernightSleepData extends SleepData {
 	}
 
 	get durationHours(): number {
-		return (this.sleepEnd.getTime() - this.sleepStart.getTime()) / 360000 / 60; // Convert milliseconds to hours
+		return (this.sleepEnd.getTime() - this.sleepStart.getTime()) / 3600000; // Convert milliseconds to hours
 	}
 }

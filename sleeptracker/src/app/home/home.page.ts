@@ -18,7 +18,8 @@ import { IonHeader,
   IonFooter,
   IonDatetime,
 	IonItem,
-	DatetimeCustomEvent
+	DatetimeCustomEvent,
+	ViewWillEnter
 } from '@ionic/angular/standalone';
 import { SleepService } from '../services/sleep.service';
 import { addIcons } from 'ionicons';
@@ -53,7 +54,7 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 IonItem],
 })
 
-export class HomePage implements OnInit{
+export class HomePage implements ViewWillEnter {
   constructor(public sleepService:SleepService) {
     addIcons({bed, happy});
 	}
@@ -62,9 +63,9 @@ export class HomePage implements OnInit{
 	selectedDate:string = new Date().toISOString();
 	selectedReadableDate:string = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 
-	async ngOnInit() {
-		console.log(this.allSleepData);
-    await this.sleepService.initData();
+	async ionViewWillEnter() {
+		await this.sleepService.initData();
+		this.highlightedDates = this.colorCodeDates();
 	}
 
   get greeting(): string {
@@ -92,14 +93,14 @@ export class HomePage implements OnInit{
 
 	colorCodeDates() {
 		return SleepService.AllOvernightData.map((record) => {
-			const dateString = record.endTime.toISOString().split('T')[0];
+			const dateString = formatDate(record.endTime, 'yyyy-MM-dd', 'en-US');
 			const durationHours = record.durationHours;
 
-			let bgColor = '2dd36f'; //Good
+			let bgColor = '#2dd36f'; //Good
 			if(durationHours < 6) {
-				bgColor = 'eb445a'; // Bad
+				bgColor = '#eb445a'; // Bad
 			} else if (durationHours < 8) {
-				bgColor = '3880ff'; // Okay
+				bgColor = '#FFEF00'; // Okay
 			}
 		
 
@@ -111,7 +112,5 @@ export class HomePage implements OnInit{
 	});
 }
 
-	highlightedDates = [
-	
-	];
+	highlightedDates: { date: string; textColor: string; backgroundColor: string }[] = [];
 }

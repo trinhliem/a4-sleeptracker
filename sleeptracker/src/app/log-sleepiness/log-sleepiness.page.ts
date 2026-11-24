@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonBackButton, IonButton, IonRange, IonLabel,
-    NavController, IonFooter, RangeCustomEvent
-} from '@ionic/angular/standalone';
-import { SleepService } from '../services/sleep.service';
-import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {IonButton, IonContent, IonRange, NavController, RangeCustomEvent} from '@ionic/angular/standalone';
+import {Haptics, ImpactStyle, NotificationType} from '@capacitor/haptics';
+import {SleepService} from '../services/sleep.service';
+import {StanfordSleepinessData} from '../data/stanford-sleepiness-data';
 
 @Component({
     selector: 'app-log-sleepiness',
     templateUrl: 'log-sleepiness.page.html',
-    imports: [
-        FormsModule,
-        IonHeader, IonToolbar, IonTitle, IonContent,
-        IonButtons, IonBackButton, IonButton, IonRange, IonLabel, IonFooter
-    ],
+  imports: [
+    FormsModule,
+    IonContent,
+    IonButton,
+    IonRange
+  ],
 })
 export class LogSleepinessPage {
     rating: number = 3;
@@ -34,13 +32,15 @@ export class LogSleepinessPage {
         const record = new StanfordSleepinessData(this.rating, new Date());
         await this.sleepService.logSleepinessData(record);
         console.log('Saved sleepiness record: ', record.summaryString());
-        this.navCtrl.navigateRoot('/home');
+        await Haptics.notification(( { type: NotificationType.Success }))
+        await this.navCtrl.navigateRoot('/home');
     }
 
     onSliderChange(event: RangeCustomEvent)
     {
-        console.log('ionChange emitted value:', event.detail.value)
-        //this.rating = event.detail.value as number;
+      console.log('ionChange emitted value:', event.detail.value)
+      Haptics.impact({ style: ImpactStyle.Light});
+      //this.rating = event.detail.value as number;
     }
 
 }

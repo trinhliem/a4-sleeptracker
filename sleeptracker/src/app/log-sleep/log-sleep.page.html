@@ -1,10 +1,10 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding-horizontal">
   <!-- bedtime step -->
   @if (currentStep === 1) {
     <div class="step-card">
-      <h2 class="center-align">When did you go to bed?</h2>
+      <h1>When did you go to bed?</h1>
       <ion-item lines="none">
-      <ion-datetime-button datetime="bedtime" ></ion-datetime-button>
+      <ion-datetime-button datetime="bedtime"></ion-datetime-button>
       </ion-item>
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
@@ -18,7 +18,7 @@
   }
   @else if (currentStep === 2) { <!-- wake time step -->
     <div class="step-card slide-in-right">
-    <h2 class="center-align">When did you get out of bed?</h2>
+    <h1>When did you get out of bed?</h1>
       <ion-item lines="none">
         <ion-datetime-button datetime="waketime"></ion-datetime-button>
       </ion-item>

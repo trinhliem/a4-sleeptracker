@@ -1,32 +1,28 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {
-  IonToolbar,
+  IonButton,
   IonContent,
-  IonBackButton, IonButton,
-  IonItem, IonLabel,
   IonDatetime,
   IonDatetimeButton,
+  IonItem,
   IonModal,
   NavController,
-  IonInput,
-  IonFooter,
   ViewWillEnter
 } from '@ionic/angular/standalone';
-import { SleepService } from '../services/sleep.service';
-import { OvernightSleepData } from '../data/overnight-sleep-data';
+import {Haptics, NotificationType} from '@capacitor/haptics';
+import {SleepService} from '../services/sleep.service';
+import {OvernightSleepData} from '../data/overnight-sleep-data';
 
 @Component({
     selector: 'app-log-sleep',
     templateUrl: 'log-sleep.page.html',
-    imports: [
-        FormsModule,
-        IonToolbar,
-        IonContent,
-        IonBackButton, IonButton,
-        IonItem, IonDatetime, IonDatetimeButton, IonModal,
-        IonFooter
-    ],
+  imports: [
+    FormsModule,
+    IonContent,
+    IonButton,
+    IonItem, IonDatetime, IonDatetimeButton, IonModal
+  ],
 })
 export class LogSleepPage implements ViewWillEnter { // the interface triggers whenever the page is navigated to
   currentStep: number = 1;
@@ -59,7 +55,7 @@ export class LogSleepPage implements ViewWillEnter { // the interface triggers w
   async save() {
       const record = new OvernightSleepData(new Date(this.bedtime), new Date(this.wakeup));
       await this.sleepService.logOvernightData(record);
-
-      this.navCtrl.navigateRoot('/home');
+      await Haptics.notification(( { type: NotificationType.Success}))
+      await this.navCtrl.navigateRoot('/home');
   }
 }

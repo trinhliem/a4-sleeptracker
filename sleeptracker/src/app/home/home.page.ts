@@ -52,6 +52,32 @@ import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 	IonDatetime,
 IonItem],
 })
+
+//For coloring the dates in the calendar, assign each date a package
+interface DateColors {
+	textColor: string;
+	backgroundColor: string;
+	border: string;
+}
+
+const SleepAmount: Record<'good' | 'bad' | 'okay', DateColors> = {
+	good: {
+		textColor: '#09721b',
+		backgroundColor: '#d4f5d4',
+		border: '1px solid #09721b'
+	},
+	bad: {
+		textColor: '#800080',
+      	backgroundColor: '#ffc0cb',
+      	border: '1px solid #e91e63',
+	},
+	okay: {
+		textColor: '#737000',
+      	backgroundColor: '#FDEFB2',
+      	border: '1px solid #FFE135',
+	}
+}
+
 export class HomePage implements OnInit{
   constructor(public sleepService:SleepService) {
     addIcons({bed, happy});
@@ -90,4 +116,21 @@ export class HomePage implements OnInit{
 	}
 
 
+
+
+
+	highlightedDates = [
+		{
+			date: '2026-11-26',
+			SleepAmount: SleepAmount.good
+		},
+		{
+			date: '2026-11-27',
+			SleepAmount: SleepAmount.bad
+		},
+		{
+			date: '2026-11-28',
+			SleepAmount: SleepAmount.okay
+		}
+	]
 }

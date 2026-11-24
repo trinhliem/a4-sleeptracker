@@ -6,7 +6,8 @@
 
   <div class="ion-align-items-center ion-margin-top">
     <ion-item>
-      <ion-datetime presentation="date" [value]="currentDate" (ionChange)="onDateChange($event)"></ion-datetime>
+        <ion-datetime presentation="date" [value]="currentDate" [highlightedDates]="highlightedDates"
+        (ionChange)="onDateChange($event)"></ion-datetime>
     </ion-item>
 
     <ion-item>

@@ -28,31 +28,6 @@ import { SleepData } from '../data/sleep-data';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 
-//For coloring the dates in the calendar, assign each date a package
-interface DateColors {
-	textColor: string;
-	backgroundColor: string;
-	//border: string;
-}
-
-	const SleepAmount: Record<'good' | 'bad' | 'okay', DateColors> = {
-	good: {
-		textColor: '#09721b',
-		backgroundColor: '#d4f5d4',
-		//border: '1px solid #09721b'
-	},
-	bad: {
-		textColor: '#800080',
-      	backgroundColor: '#ffc0cb',
-      	//border: '1px solid #e91e63',
-	},
-	okay: {
-		textColor: '#737000',
-      	backgroundColor: '#FDEFB2',
-      	//border: '1px solid #FFE135',
-	}
-}
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -107,7 +82,6 @@ export class HomePage implements OnInit{
 
 	/* Ionic doesn't allow bindings to static variables, so this getter can be used instead. */
 	get allSleepData() {
-		console.log('HomePage.allSleepData', SleepService.AllSleepData);
 		return SleepService.AllSleepData;
 	}
 
@@ -116,11 +90,28 @@ export class HomePage implements OnInit{
 		this.selectedReadableDate = formatDate(new Date(this.selectedDate), 'mediumDate', 'en-US');
 	}
 
-	
+	colorCodeDates() {
+		return SleepService.AllOvernightData.map((record) => {
+			const dateString = record.endTime.toISOString().split('T')[0];
+			const durationHours = record.durationHours;
+
+			let bgColor = '2dd36f'; //Good
+			if(durationHours < 6) {
+				bgColor = 'eb445a'; // Bad
+			} else if (durationHours < 8) {
+				bgColor = '3880ff'; // Okay
+			}
+		
+
+		return {
+			date: dateString,
+			textColor: '#ffffff',
+			backgroundColor: bgColor
+		};
+	});
+}
 
 	highlightedDates = [
-		{date: '2026-11-26', ...SleepAmount.good},
-		{date: '2026-11-27', ...SleepAmount.bad},
-		{date: '2026-11-28', ...SleepAmount.okay}
+	
 	];
 }

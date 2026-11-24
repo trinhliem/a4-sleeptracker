@@ -60,5 +60,4 @@ export class LogSleepinessPage {
       Haptics.impact({ style: ImpactStyle.Light});
       //this.rating = event.detail.value as number;
     }
-
 }

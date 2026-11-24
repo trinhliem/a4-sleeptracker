@@ -13,9 +13,21 @@
     <ion-item>
       <ion-label>
         <h2>Sleep Data</h2>
-        <p>Sleep data for {{ selectedReadableDate }} here</p>
+        @if (selectedSleepRecord) {
+          <p>{{ selectedSleepRecord.summaryString() }}</p>
+        } @else {
+          <p>No sleep data logged for {{ selectedReadableDate }}.</p>
+        }
       </ion-label>
     </ion-item>
+
+    <!-- sleep overnight chart goes here -->
+    <div class="sleep-chart-card">
+      <div class="chart-header">
+      </div>
+
+      <div #sleepChartContainer class="chart-canvas"></div>
+    </div>
 
     <ion-item>
       <ion-label>

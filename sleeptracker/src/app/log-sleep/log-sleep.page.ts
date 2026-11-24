@@ -8,7 +8,8 @@ import {
   IonItem,
   IonModal,
   NavController,
-  ViewWillEnter
+  ViewWillEnter,
+  ToastController
 } from '@ionic/angular/standalone';
 import {Haptics, NotificationType} from '@capacitor/haptics';
 import {SleepService} from '../services/sleep.service';
@@ -33,8 +34,19 @@ export class LogSleepPage implements ViewWillEnter { // the interface triggers w
 
   constructor(
       private sleepService: SleepService,
-      private navCtrl: NavController
+      private navCtrl: NavController,
+      private toastCtrl: ToastController
   ) {}
+
+  async showToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2500,
+      position: "middle",
+      color: color
+    });
+    await toast.present();
+  }
 
   ionViewWillEnter() {
     this.currentStep = 1;
@@ -53,9 +65,18 @@ export class LogSleepPage implements ViewWillEnter { // the interface triggers w
   }
 
   async save() {
-      const record = new OvernightSleepData(new Date(this.bedtime), new Date(this.wakeup));
-      await this.sleepService.logOvernightData(record);
-      await Haptics.notification(( { type: NotificationType.Success}))
-      await this.navCtrl.navigateRoot('/home');
+    const bedTime = new Date(this.bedtime);
+    const wakeUp = new Date(this.wakeup);
+
+    if (bedTime.getTime() > wakeUp.getTime()) {
+      await this.showToast("Bedtime cannot be later than wake up time!", 'danger');
+        return;
+    }
+
+    const record = new OvernightSleepData(bedTime, wakeUp);
+    await this.sleepService.logOvernightData(record);
+    await Haptics.notification(( { type: NotificationType.Success}));
+    await this.navCtrl.navigateRoot('/home');
+    await this.showToast("Sleep logged successfully!", 'success');
   }
 }

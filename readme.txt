@@ -28,7 +28,8 @@ how to route between pages, data validation, and so on.
 
 
 5. Is there anything special we need to know in order to run your code?
-No
+We installed Apex Charts and the package.json was updated.
+To run the code you can just run ```npm install``` like usual.
 
 
 --Aim for no more than two sentences for each of the following questions.--
@@ -78,6 +79,5 @@ Data is backed up to the device's native local storage using @capacitor/preferen
 is serialized into JSON and persists across reboots.
 
 14. How does your app implement or follow principles of good mobile design?
-Our app has a bottom tab navigation, and two-step process when logging sleep to keep things simple. We also color code
-calendar for hitting sleep goals, added tactile feedback when logging sleepiness, and added data visualizations for
-user-friendliness.
+We implemented a two-step process when logging sleep to keep things simple, added tactile feedback when logging sleepiness, added data visualizations for
+useful initial view, and error prevention by preventing users from logging faulty sleep data with error toast).
